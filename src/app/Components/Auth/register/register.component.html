@@ -1,0 +1,231 @@
+<body>
+  <!-- This is the Modal that will be used to relay information to the User -->
+  <div
+    class="modal fade modal-dialog modal-dialog-centered"
+    id="RegistrationModal"
+    data-backdrop="static"
+    data-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+    style="z-index: -1;"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            {{ MessageHeader }}
+          </h5>
+        </div>
+        <div class="modal-body">
+          {{ MessageBody }}
+        </div>
+        <div class="modal-footer" *ngIf="isError == false">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="CloseModal()"
+          >
+            Stick Around
+          </button>
+          <button type="button" class="btn btn-primary" (click)="GoToLogIn()">
+            Go to Login Page
+          </button>
+        </div>
+        <!-- Modal Footer -->
+        <div class="modal-footer" *ngIf="isError == true">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="CloseModal()"
+          >
+            Okay
+          </button>
+        </div>
+        <!-- Modal Footer -->
+      </div>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-title>
+      Register
+    </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="RegisterForm" (ngSubmit)="RegisterUser()">
+        <div>
+          <p
+            style="color: #e92626; font-size: 20px; font-weight: normal;"
+            Class="success"
+          >
+            {{ errorMessage }}
+          </p>
+        </div>
+
+        <br />
+
+        <mat-form-field appearance="outline">
+          <mat-label style="color: white;">First Name</mat-label>
+          <input matInput formControlName="userName" />
+        </mat-form-field>
+
+        <br />
+
+        <mat-form-field appearance="outline">
+          <mat-label style="color: white;">Surname</mat-label>
+          <input matInput formControlName="userSurname" />
+        </mat-form-field>
+
+        <br />
+
+        <mat-form-field appearance="outline">
+          <mat-label style="color: white;">Email</mat-label>
+          <input
+            matInput
+            formControlName="userEmail"
+            placeholder="Ex. pat@example.com"
+          />
+        </mat-form-field>
+
+        <br />
+
+        <p style="color: red;">{{ ConfirmationError }}</p>
+        <mat-form-field appearance="outline">
+          <mat-label style="color: white;">Password</mat-label>
+          <input
+            formControlName="userPassword"
+            type="password"
+            matInput
+            (keyup)="
+              CheckPassword(RegisterForm.value.userPassword, ConfirmPassword)
+            "
+          />
+        </mat-form-field>
+
+        <br />
+
+        <mat-form-field appearance="outline">
+          <mat-label style="color: white;">Confirm Password</mat-label>
+          <input
+            type="password"
+            matInput
+            (keyup)="
+              CheckPassword(RegisterForm.value.userPassword, ConfirmPassword)
+            "
+            [(ngModel)]="ConfirmPassword"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </mat-form-field>
+
+        <br />
+
+        <div class="form-group">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="
+              !RegisterForm.valid ||
+              !CheckPassword(RegisterForm.value.userPassword, ConfirmPassword)
+            "
+          >
+            Log In
+          </button>
+        </div>
+
+        <br />
+
+        <a [routerLink]="['/LogIn']" class="forgot"
+          >Already have an Account? Login Here!</a
+        >
+      </form>
+    </mat-card-content>
+  </mat-card>
+</body>
+
+<!-- <body>
+  <div class="login-dark">
+    <form [formGroup]="RegisterForm" (ngSubmit)="RegisterUser()">
+      <h2 class="sr-only">Account Registration</h2>
+      <div class="illustration">
+        <i class="icon ion-ios-locked-outline"></i>
+      </div>
+
+      <div>
+        <p
+          style="color: #e92626; font-size: 20px; font-weight: normal;"
+          Class="success"
+        >
+          {{ errorMessage }}
+        </p>
+      </div>
+
+      <mat-form-field class="example-full-width">
+        <mat-label style="color: white;">First Name</mat-label>
+        <input matInput formControlName="userName" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label style="color: white;">Surname</mat-label>
+        <input matInput formControlName="userSurname" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label style="color: white;">Email</mat-label>
+        <input
+          matInput
+          formControlName="userEmail"
+          placeholder="Ex. pat@example.com"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <p style="color: red;">{{ ConfirmationError }}</p>
+        <mat-label style="color: white;">Password</mat-label>
+        <input
+          formControlName="userPassword"
+          type="password"
+          matInput
+          (keyup)="
+            CheckPassword(RegisterForm.value.userPassword, ConfirmPassword)
+          "
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label style="color: white;">Confirm Password</mat-label>
+        <input
+          type="password"
+          matInput
+          (keyup)="
+            CheckPassword(RegisterForm.value.userPassword, ConfirmPassword)
+          "
+          [(ngModel)]="ConfirmPassword"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </mat-form-field>
+
+      <div class="form-group">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="
+            !RegisterForm.valid ||
+            !CheckPassword(RegisterForm.value.userPassword, ConfirmPassword)
+          "
+        >
+          Log In
+        </button>
+      </div>
+
+      <br />
+
+      <a [routerLink]="['/LogIn']" class="forgot"
+        >Already have an Account? Login Here!</a
+      >
+    </form>
+  </div>
+</body> -->

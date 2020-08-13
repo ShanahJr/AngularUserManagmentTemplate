@@ -1,0 +1,22 @@
+.container {
+  height: 90vh;
+}
+.card {
+  background-color: black !important;
+  width: fit-content;
+  align-items: center;
+  margin: auto;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.card-image {
+  width: fit-content;
+}
+.card-content {
+  font-size: x-large;
+  text-align: center;
+  p {
+    color: white;
+  }
+}

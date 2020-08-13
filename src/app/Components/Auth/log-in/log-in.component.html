@@ -1,0 +1,133 @@
+<body>
+  <!-- This is the Modal that will be used to relay information to the User -->
+  <div
+    class="modal fade modal-dialog modal-dialog-centered"
+    id="LogInModal"
+    data-backdrop="static"
+    data-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+    style="z-index: -1;"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            {{ ModalHeader }}
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{ ModalBody }}
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="CloseModal()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-title>
+      Login
+    </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="LoginForm" (ngSubmit)="LogIn()">
+        <div>
+          <p
+            style="color: #e92626; font-size: 20px; font-weight: normal;"
+            Class="success"
+          >
+            {{ errorMessage }}
+          </p>
+        </div>
+
+        <br />
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label style="color: white;">Email</mat-label>
+          <input
+            matInput
+            formControlName="userEmail"
+            placeholder="Ex. pat@example.com"
+          />
+        </mat-form-field>
+
+        <br />
+
+        <mat-form-field appearance="outline">
+          <mat-label style="color: white;">Password</mat-label>
+          <input formControlName="userPassword" type="password" matInput />
+        </mat-form-field>
+
+        <br />
+
+        <div class="form-group">
+          <button mat-raised-button color="primary" type="submit">
+            Log In
+          </button>
+        </div>
+        <br />
+
+        <a [routerLink]="['/Register']">Dont have an Acount? Register here</a>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</body>
+
+<!-- <body>
+  <div class="login-dark">
+    <form [formGroup]="LoginForm" (ngSubmit)="LogIn()">
+      <h2 class="sr-only">Login Form</h2>
+      <div class="illustration">
+        <i class="icon ion-ios-locked-outline"></i>
+      </div>
+
+      <div>
+        <p
+          style="color: #e92626; font-size: 20px; font-weight: normal;"
+          Class="success"
+        >
+          {{ errorMessage }}
+        </p>
+      </div>
+
+      <mat-form-field class="example-full-width">
+        <mat-label style="color: white;">Email</mat-label>
+        <input
+          matInput
+          formControlName="userEmail"
+          placeholder="Ex. pat@example.com"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label style="color: white;">Password</mat-label>
+        <input formControlName="userPassword" type="password" matInput />
+      </mat-form-field>
+
+      <div class="form-group">
+        <button mat-raised-button color="primary" type="submit">Log In</button>
+      </div>
+
+      <a [routerLink]="['/Register']" class="forgot"
+        >Dont have an Acount? Register here</a
+      >
+    </form>
+  </div>
+</body> -->
