@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { StoreModule } from '@ngrx/store';
+import { Reducers } from './app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { OverlayComponent } from './Services/Overlay/overlay/overlay.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +37,7 @@ import { MatMenuModule } from '@angular/material/menu';
     RegisterComponent,
     ProjectsComponent,
     ForbiddenComponent,
+    OverlayComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +53,12 @@ import { MatMenuModule } from '@angular/material/menu';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
+    OverlayModule,
     // NgbModule,
+    StoreModule.forRoot(Reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -54,5 +66,6 @@ import { MatMenuModule } from '@angular/material/menu';
     AuthGuard,
   ],
   bootstrap: [AppComponent],
+  entryComponents: [OverlayComponent, LogInComponent],
 })
 export class AppModule {}

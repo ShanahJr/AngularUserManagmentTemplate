@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { OverlayService } from 'src/app/Services/Overlay/overlay.service';
 
 import { UserService, TOKEN_NAME } from '../../../Services/User/user.service';
 import { LogInModel } from '../../../Models/LogIn/log-in-model';
@@ -8,6 +9,7 @@ import { take } from 'rxjs/operators';
 import { UserModel } from 'src/app/Models/User/user-model';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import * as Bootstrap from '../../../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
+import { ModalModel } from 'src/app/Models/Modal/modal-model';
 
 @Component({
   selector: 'app-log-in',
@@ -29,10 +31,13 @@ export class LogInComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
+    this.open();
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.UserID = parseInt(params.get('id'));
     });
@@ -65,6 +70,17 @@ export class LogInComponent implements OnInit {
         );
     }
   } // ngOnInit
+
+  open() {
+    var modal = new ModalModel();
+    modal.modalBody = 'Body';
+    modal.modalHeader = 'Tester';
+    modal.modalMode = 'Login Screen';
+
+    const ref = this.overlayService.open(modal, null);
+
+    ref.afterClosed$.subscribe((res) => {});
+  }
 
   ShowModal() {
     var modal = document.getElementById('LogInModal');
