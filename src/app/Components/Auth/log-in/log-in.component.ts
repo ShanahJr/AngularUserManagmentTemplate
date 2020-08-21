@@ -20,8 +20,6 @@ export class LogInComponent implements OnInit {
   model: any = {};
   errorMessage: string = '';
   UserID = 0;
-  ModalHeader = '';
-  ModalBody = '';
 
   LoginForm = new FormGroup({
     userEmail: new FormControl('', [Validators.required, Validators.email]),
@@ -36,8 +34,6 @@ export class LogInComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.open();
-
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.UserID = parseInt(params.get('id'));
     });
@@ -48,50 +44,39 @@ export class LogInComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           () => {
-            this.ModalBody =
+            var modal = new ModalModel();
+            modal.modalHeader = 'Hooorayyyyy!!!!';
+            modal.modalBody =
               'Your account has been verified. We hope you enjoy the experience.';
-            this.ModalHeader = 'Hooorayyyyy!!!!';
-            this.ShowModal();
+            modal.modalMode = 'Normal Message';
+            this.open(modal);
           },
           (error) => {
             if (error.statusText == 'Unknown Error') {
-              this.ModalHeader = 'Oh No!';
-              this.ModalBody =
+              var modal = new ModalModel();
+              modal.modalHeader = 'Oh No!';
+              modal.modalBody =
                 'Something is wrong with our servers, we cant verify your account at the moment. Please come back and try again later.';
-              this.ShowModal();
+              modal.modalMode = 'Normal Message';
+              this.open(modal);
             }
             if (error.statusText == 'Conflict') {
-              this.ModalHeader = 'This must be a mistake';
-              this.ModalBody =
+              var modal = new ModalModel();
+              modal.modalHeader = 'This must be a mistake';
+              modal.modalBody =
                 'You have aready confirmed your email address, you are all set to log in.';
-              this.ShowModal();
+              modal.modalMode = 'Normal Message';
+              this.open(modal);
             }
           }
         );
     }
   } // ngOnInit
 
-  open() {
-    var modal = new ModalModel();
-    modal.modalBody = 'Body';
-    modal.modalHeader = 'Tester';
-    modal.modalMode = 'Login Screen';
-
+  open(modal: ModalModel) {
     const ref = this.overlayService.open(modal, null);
 
     ref.afterClosed$.subscribe((res) => {});
-  }
-
-  ShowModal() {
-    var modal = document.getElementById('LogInModal');
-    modal.style.removeProperty('z-index');
-    var myModal = new Bootstrap.Modal(document.getElementById('LogInModal'));
-    myModal.show();
-  }
-
-  CloseModal() {
-    var modal = document.getElementById('LogInModal');
-    modal.style.setProperty('z-index', '-1');
   }
 
   LogIn() {
@@ -113,22 +98,40 @@ export class LogInComponent implements OnInit {
         },
         (error) => {
           if (error.statusText == 'Unauthorized') {
-            this.ModalHeader = 'Oops!';
-            this.ModalBody =
+            var modal = new ModalModel();
+            modal.modalHeader = 'Oops!';
+            modal.modalBody =
               'Your email or password is incorrect. Please check them and try again';
-            this.ShowModal();
+            modal.modalMode = 'Normal Message';
+            this.open(modal);
           } else if (error.statusText == 'Conflict') {
-            this.ModalHeader = 'There is a slight problem';
-            this.ModalBody =
-              'You need to have confirmed your email in order to logIn';
-            this.ShowModal();
+            var modal = new ModalModel();
+            modal.modalHeader = 'There is a slight problem';
+            modal.modalBody =
+              'You need to have confirmed your email in order to logIn.';
+            modal.modalMode = 'Normal Message';
+            modal.modalSubMode = 'Confirm Email';
+            this.open(modal);
           } else {
-            this.ModalHeader = 'We are very sorry.';
-            this.ModalBody =
+            var modal = new ModalModel();
+            modal.modalHeader = 'We are very sorry.';
+            modal.modalBody =
               'Our servers are down and we are working on getting them back up, please try logging in later';
-            this.ShowModal();
+            modal.modalMode = 'Normal Message';
+            this.open(modal);
           }
         }
       );
   } // Login Method
+
+  ForgotPassword() {
+    console.log('Cheese');
+
+    var modal = new ModalModel();
+    modal.modalHeader =
+      'You will get an email to confirm password reset, link expires in two hours';
+    modal.modalMode = 'Forgot Password';
+    modal.modalSubMode = '';
+    this.open(modal);
+  }
 }

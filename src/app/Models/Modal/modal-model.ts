@@ -3,4 +3,5 @@ export class ModalModel {
   modalMode: string;
   modalHeader: string;
   modalBody: string;
+  modalSubMode: string;
 }

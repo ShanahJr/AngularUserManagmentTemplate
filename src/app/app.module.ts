@@ -15,6 +15,7 @@ import { ForbiddenComponent } from './Components/Auth/forbidden/forbidden.compon
 import { AuthGuard } from './Services/Auth/auth.guard';
 import { JwtInterceptor } from './Services/Auth/jwt.interceptor';
 import { ErrorInterceptor } from './Services/Auth/error.interceptor';
+import { SpinnerInterceptor } from './Services/Spinner/spinner.interceptor';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +30,8 @@ import { StoreModule } from '@ngrx/store';
 import { Reducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { OverlayComponent } from './Services/Overlay/overlay/overlay.component';
+import { SpinnerComponent } from './Services/Spinner/spinner/spinner.component';
+import { ForgotPasswordComponent } from './Components/Auth//forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { OverlayComponent } from './Services/Overlay/overlay/overlay.component';
     ProjectsComponent,
     ForbiddenComponent,
     OverlayComponent,
+    SpinnerComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,9 +68,10 @@ import { OverlayComponent } from './Services/Overlay/overlay/overlay.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     AuthGuard,
   ],
   bootstrap: [AppComponent],
   entryComponents: [OverlayComponent, LogInComponent],
 })
-export class AppModule {}
+export class AppModule { }

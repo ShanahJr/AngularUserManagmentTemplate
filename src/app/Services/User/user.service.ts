@@ -10,6 +10,7 @@ import { LogInModel } from '../../Models/LogIn/log-in-model';
 import { UserModel } from '../../Models/User/user-model';
 import { take } from 'rxjs/operators';
 import * as JwtDecode from 'jwt-decode';
+import { ForgotPasswordModel } from 'src/app/Models/LogIn/forgot-password';
 
 export const TOKEN_NAME: string = 'UserToken';
 
@@ -20,10 +21,15 @@ export class UserService {
   url: string;
   token: string;
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  httpOptions: any;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.url = 'https://localhost:6002/api/User/';
-    //this.url = 'https://projectmanagerapi.shanahjr.co.za/api/User/';
+    //this.url = 'https://localhost:6002/api/User/';
+    let headers = new HttpHeaders({
+      Authorization: 'bearer ' + localStorage.getItem('UserToken'),
+    });
+    let option = { headers: headers };
+    this.url = 'https://projectmanagerapi.shanahjr.co.za/api/User/';
   } // constructor
 
   //If no value is returned then it wasa success
@@ -49,6 +55,26 @@ export class UserService {
 
   ConfirmEmail(id: number) {
     return this.http.get(this.url + 'ConfirmEmail/' + id);
+  }
+
+  ResendConfirmationEmail(email: string) {
+    return this.http.get(this.url + 'ResendConfirmationEmail/' + email);
+  }
+
+  ForgotPassword(email: string) {
+    return this.http.get(this.url + 'ForgotPassword/' + email);
+  }
+
+  ChangePassword(Password: string, token: string) {
+    //let info = { Password: Password };
+    var newPassword = new ForgotPasswordModel();
+    newPassword.password = Password;
+    //this.httpOptions.headers.set('Authorization', 'bearer ' + token);
+    let headers = new HttpHeaders({
+      Authorization: 'bearer ' + token,
+    });
+    let option = { headers: headers };
+    return this.http.post(this.url + 'ChangePassword/', newPassword, option);
   }
 
   // getTokenExpirationDate(token: string): Date {

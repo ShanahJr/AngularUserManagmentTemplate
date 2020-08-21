@@ -3,25 +3,85 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
+          <h3 class="modal-title">{{ modalData.modalHeader }}</h3>
           <button
             type="button"
             class="close"
             data-dismiss="modal"
             aria-label="Close"
+            (click)="close()"
           >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
+        <!-- Modal Header -->
+        <div class="modal-body" *ngIf="SwitchToConfirmForm == false">
+          <p>{{ modalData.modalBody }}</p>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        <div class="modal-body" *ngIf="SwitchToConfirmForm">
+          <form
+            [formGroup]="ConfirmEmailForm"
+            (ngSubmit)="SendConfrimationEmail()"
+          >
+            <div>
+              <p
+                style="color: #e92626; font-size: 20px; font-weight: normal;"
+                Class="success"
+              >
+                {{ errorMessage }}
+              </p>
+            </div>
+
+            <br />
+
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                formControlName="userEmail"
+                placeholder="Ex. pat@example.com"
+              />
+            </mat-form-field>
+
+            <br />
+
+            <div class="form-group">
+              <button mat-raised-button color="primary" type="submit">
+                Send
+              </button>
+            </div>
+            <br />
+          </form>
+          <!-- Resend confirmation email Form  -->
+        </div>
+        <div
+          class="modal-footer"
+          *ngIf="
+            modalData.modalMode == 'Normal Message' &&
+            SwitchToConfirmForm == false
+          "
+        >
+          <button type="button" class="btn btn-secondary" (click)="close()">
             Close
           </button>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="ConfirmForm()"
+            *ngIf="modalData.modalSubMode == 'Confirm Email'"
+          >
+            Resend Cofirmation Email
+          </button>
         </div>
+        <!-- Modal Footer 1 -->
+
+        <!-- <div class="modal-footer" *ngIf="SwitchToConfirmForm" id="ModalFooter2">
+          <button type="button" class="btn btn-secondary" (click)="close()">
+            Resend Confirmation Email
+          </button>
+        </div> -->
+        <!-- Modal Footer 2 -->
       </div>
     </div>
   </ng-container>

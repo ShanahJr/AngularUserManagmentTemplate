@@ -1,13 +1,14 @@
 body {
   background-color: black;
-  height: 100vh;
+  height: 88vh;
   position: relative;
 }
 
 mat-card {
   background-color: #3d4849;
   width: 85%;
-  margin: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
   position: absolute;
   top: 50%;
   left: 50%;

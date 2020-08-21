@@ -5,6 +5,7 @@ import { LogInComponent } from './Components/Auth/log-in/log-in.component';
 import { RegisterComponent } from './Components/Auth/register/register.component';
 import { ProjectsComponent } from './Components/projects/projects.component';
 import { ForbiddenComponent } from './Components/Auth/forbidden/forbidden.component';
+import { ForgotPasswordComponent } from './Components/Auth//forgot-password/forgot-password.component';
 
 import { AuthGuard } from './Services/Auth/auth.guard';
 
@@ -15,6 +16,8 @@ const routes: Routes = [
   { path: 'LogIn/:id', component: LogInComponent },
   { path: 'Projects', component: ProjectsComponent, canActivate: [AuthGuard] },
   { path: 'Forbidden', component: ForbiddenComponent },
+  { path: 'Forbidden', component: ForbiddenComponent },
+  { path: 'ForgotPassword/:token', component: ForgotPasswordComponent },
 ];
 
 // const routes: Routes = [
@@ -36,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

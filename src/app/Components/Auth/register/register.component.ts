@@ -50,11 +50,9 @@ export class RegisterComponent implements OnInit {
           this.MessageHeader = 'Hoooooorrraaaaaaayyyyyyy';
           this.MessageBody =
             'You have been successfully registered into our system, there is one more thing you need to do though, check your email so you can verify your account.';
-
           this.ShowModal();
         },
         (error) => {
-          //debugger;
           if (error.statusText == 'Unknown Error') {
             this.isError = true;
             this.errorMessage =
@@ -75,6 +73,7 @@ export class RegisterComponent implements OnInit {
             this.MessageBody =
               'Sorry, something is wrong with out system. Please try and register again' +
               'later';
+            this.ShowModal();
           }
         }
       );
@@ -82,7 +81,6 @@ export class RegisterComponent implements OnInit {
 
   CheckPassword(Password: string, ConfirmationPassword: string): boolean {
     if (Password == ConfirmationPassword) {
-      console.log('Passwords are equal');
       this.ConfirmationError = '';
       return true;
     } else {
